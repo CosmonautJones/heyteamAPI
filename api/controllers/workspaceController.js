@@ -7,7 +7,9 @@ const createWorkspace = require('./helpers/createWorkspace');
 const login = (req, res) => {
   if (!req.query.code) {
     // access denied
-
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    console.log('no code');
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     return;
   }
   var data = {
@@ -18,6 +20,9 @@ const login = (req, res) => {
       code: req.query.code,
     },
   };
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  console.log(data);
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
   request.post('https://slack.com/api/oauth.access', data, async function(
     error,
     response,
@@ -25,6 +30,9 @@ const login = (req, res) => {
   ) {
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      console.log(body);
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
       const workspace = await Workspace.findOne({
         'info.id': body.team_id,
       });
@@ -33,7 +41,6 @@ const login = (req, res) => {
         return res.redirect(
           `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
           // 'http://localhost:3000/welcome'
-          
         );
       } else {
         await createWorkspace(body, req, res);
