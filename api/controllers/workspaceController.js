@@ -23,7 +23,7 @@ const login = (req, res) => {
   // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
   // console.log(data);
   // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-  request.post('https://slack.com/api/oauth.access', data, async function(
+  request.post('https://slack.com/api/oauth.access', data, function(
     error,
     response,
     body
@@ -47,7 +47,7 @@ const login = (req, res) => {
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
             console.log('creating workspace');
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-            await createWorkspace(body, req, res);
+            createWorkspace(body, req, res);
           }
         })
         .catch(error => {
