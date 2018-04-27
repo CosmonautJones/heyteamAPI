@@ -4,12 +4,12 @@ const Workspace = require('../models/workspaceModel');
 
 const createWorkspace = require('./helpers/createWorkspace');
 
+const colors = require('colors');
+
 const login = (req, res) => {
   if (!req.query.code) {
     // access denied
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log('no code');
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+
     return;
   }
   var data = {
@@ -20,9 +20,7 @@ const login = (req, res) => {
       code: req.query.code,
     },
   };
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-  console.log(data);
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>'.green);
   request.post('https://slack.com/api/oauth.access', data, async function(
     error,
     response,
@@ -30,9 +28,6 @@ const login = (req, res) => {
   ) {
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-      console.log(body);
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
       const workspace = await Workspace.findOne({
         'info.id': body.team_id,
       });
@@ -40,7 +35,6 @@ const login = (req, res) => {
         console.log('workspace exists');
         return res.redirect(
           `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
-          // 'http://localhost:3000/welcome'
         );
       } else {
         await createWorkspace(body, req, res);
@@ -87,7 +81,6 @@ const addBot = (req, res) => {
         .then(() => {
           return res.redirect(
             `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
-            // 'http://localhost:3000/conversations'
           );
         })
         .catch(console.error);
@@ -102,22 +95,58 @@ const getAllMembers = async (req, res) => {
 };
 
 const findMembers = async (req, res) => {
+  // console.log('trying to find member by ', req.body.searchTerm);
   const { w_id, searchTerm } = req.body;
   console.log(w_id, searchTerm);
   const regex = new RegExp(`${searchTerm}`, 'i');
   const searchResult = [];
 
   const workspace = await Workspace.findById(w_id).populate('members');
-  // console.log(workspace.members);
   workspace.members.forEach(m => {
     if (m.real_name) {
       if (m.real_name.match(regex)) {
-        searchResult.push(m);
+        const memberShort = {
+          id: m.id,
+          image: m.image,
+          color: m.color,
+          title: m.real_name,
+          real_name: m.real_name,
+          description: m.name,
+        };
+        searchResult.push(memberShort);
       }
     }
   });
-  console.log(searchResult);
+  // console.log(searchResult);
   res.json(searchResult);
+};
+
+const findMemberBySlackId = async (req, res) => {
+  console.log('find member by slack id');
+  const { w_id, u_id } = req.body;
+  console.log(u_id);
+  let member = 'No Member Found';
+  const workspace = await Workspace.findById(w_id).populate('members');
+  workspace.members.forEach(m => {
+    if (m.id === u_id) {
+      member = {
+        id: m.id,
+        image: m.image,
+        color: m.color,
+        title: m.real_name,
+        real_name: m.real_name,
+        description: m.name,
+      };
+      return;
+    }
+  });
+  res.send(member);
+};
+
+const hasActiveSubstription = async (req, res) => {
+  const { w_id } = req.body;
+  const workspace = await Workspace.findById(w_id);
+  res.send(workspace.info.active);
 };
 
 module.exports = {
@@ -125,4 +154,6 @@ module.exports = {
   addBot,
   getAllMembers,
   findMembers,
+  hasActiveSubstription,
+  findMemberBySlackId,
 };
