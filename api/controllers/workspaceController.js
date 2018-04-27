@@ -35,20 +35,24 @@ const login = (req, res) => {
       body = JSON.parse(body);
       console.log(body);
       console.log(body.team_id);
-      const workspace = await Workspace.findOne({
+      Workspace.findOne({
         'info.id': body.team_id,
-      });
-      if (workspace) {
-        console.log('workspace exists');
-        return res.redirect(
-          `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
-        );
-      } else {
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-        console.log('creating workspace');
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-        await createWorkspace(body, req, res);
-      }
+      })
+        .then(w => {
+          console.log(w);
+        })
+        .catch(console.error);
+      // if (workspace) {
+      //   console.log('workspace exists');
+      //   return res.redirect(
+      //     `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
+      //   );
+      // } else {
+      //   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+      //   console.log('creating workspace');
+      //   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+      //   await createWorkspace(body, req, res);
+      // }
     }
   });
 };
