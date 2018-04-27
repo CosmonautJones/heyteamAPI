@@ -29,7 +29,7 @@ const login = (req, res) => {
     body
   ) {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log(error);
+    console.log(error, response.statusMessage);
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
