@@ -28,9 +28,6 @@ const login = (req, res) => {
     response,
     body
   ) {
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log(error, response, body);
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
       const workspace = await Workspace.findOne({
@@ -42,6 +39,9 @@ const login = (req, res) => {
           `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
         );
       } else {
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+        console.log('creating workspace');
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
         await createWorkspace(body, req, res);
       }
     }

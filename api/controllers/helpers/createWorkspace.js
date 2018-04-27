@@ -24,7 +24,7 @@ const createMember = async (member, w) => {
 };
 
 module.exports = createWorkspace = async (body, req, res) => {
-  // console.log('create workspace');
+  console.log('create workspace');
   const token = body.access_token;
   const web = await new WebClient(token);
   const members = await web.users.list();
