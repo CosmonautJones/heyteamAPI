@@ -82,9 +82,9 @@ const checkLastPayment = async w => {
   const lastPayment = Math.floor((date - paidOn) / (1000 * 60 * 60 * 24));
   if (lastPayment > 30) {
     console.log;
-    await Workspace.findByIdAndUpdate(w._id, {
-      'info.active': false,
-    });
+    // await Workspace.findByIdAndUpdate(w._id, {
+    //   'info.active': false,
+    // });
   }
   return;
 };

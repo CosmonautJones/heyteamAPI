@@ -20,7 +20,9 @@ const login = (req, res) => {
       code: req.query.code,
     },
   };
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>'.green);
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+  console.log(data);
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
   request.post('https://slack.com/api/oauth.access', data, async function(
     error,
     response,
