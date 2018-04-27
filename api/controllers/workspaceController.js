@@ -28,12 +28,11 @@ const login = (req, res) => {
     response,
     body
   ) {
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log(error, response.statusCode);
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+    // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+    // console.log(error, response.statusCode);
+    // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
-      console.log(body);
       console.log(body.team_id);
       Workspace.findOne({
         'info.id': body.team_id,
@@ -41,7 +40,9 @@ const login = (req, res) => {
         .then(w => {
           console.log(w);
         })
-        .catch(console.error);
+        .catch(error => {
+          console.log('you have a big error:', error);
+        });
       // if (workspace) {
       //   console.log('workspace exists');
       //   return res.redirect(
