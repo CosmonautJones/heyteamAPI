@@ -20,14 +20,17 @@ const login = (req, res) => {
       code: req.query.code,
     },
   };
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-  console.log(data);
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+  // console.log(data);
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
   request.post('https://slack.com/api/oauth.access', data, async function(
     error,
     response,
     body
   ) {
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+    console.log(error, response, body);
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
       const workspace = await Workspace.findOne({
