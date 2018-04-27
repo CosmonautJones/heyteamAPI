@@ -10,7 +10,7 @@ const stripe = require('../controllers/paymentController');
 const corsOptions = {
   // origin: 'http://localhost:3000',
   // origin: 'http://www.mynutricard.com',
-  origin: 'https://heyteam.netlify.com',
+  // origin: 'https://heyteam.netlify.com',
   // methods: 'GET, POST, HEAD, PUT, PATCH, DELETE',
   // preflightContinue: false,
   credentials: true,
