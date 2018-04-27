@@ -28,6 +28,9 @@ const login = (req, res) => {
     response,
     body
   ) {
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+    console.log(error, response);
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
       const workspace = await Workspace.findOne({
