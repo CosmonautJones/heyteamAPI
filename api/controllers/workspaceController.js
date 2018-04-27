@@ -29,10 +29,12 @@ const login = (req, res) => {
     body
   ) {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-    console.log(error, response.statusMessage);
+    console.log(error, response.statusCode);
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
     if (!error && response.statusCode == 200) {
       body = JSON.parse(body);
+      console.log(body);
+      console.log(body.team_id);
       const workspace = await Workspace.findOne({
         'info.id': body.team_id,
       });
