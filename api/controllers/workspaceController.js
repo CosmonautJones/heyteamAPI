@@ -37,23 +37,22 @@ const login = (req, res) => {
       Workspace.findOne({
         'info.id': body.team_id,
       })
-        .then(w => {
-          console.log(w);
+        .then(workspace => {
+          if (workspace) {
+            console.log('workspace exists');
+            return res.redirect(
+              `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
+            );
+          } else {
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+            console.log('creating workspace');
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
+            await createWorkspace(body, req, res);
+          }
         })
         .catch(error => {
           console.log('you have a big error:', error);
         });
-      // if (workspace) {
-      //   console.log('workspace exists');
-      //   return res.redirect(
-      //     `${process.env.REDIRECT_URI}/?doc_id=${workspace._id}`
-      //   );
-      // } else {
-      //   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-      //   console.log('creating workspace');
-      //   console.log('>>>>>>>>>>>>>>>>>>>>>>>>>');
-      //   await createWorkspace(body, req, res);
-      // }
     }
   });
 };
