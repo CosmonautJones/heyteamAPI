@@ -10,7 +10,7 @@ const stripe = require('../controllers/paymentController');
 const corsOptions = {
   // origin: 'http://localhost:3000',
   // origin: 'http://www.mynutricard.com',
-  // origin: 'https://99e2ad32.ngrok.io',
+  // origin: 'https://a06c5c5a.ngrok.io',
   // methods: 'GET, POST, HEAD, PUT, PATCH, DELETE',
   // preflightContinue: false,
   credentials: true,
